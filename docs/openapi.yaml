@@ -1,0 +1,38 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contacts app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: >
+    Documentation about API for contact management with support for authorization and photo upload.
+tags:
+  - name: Contacts
+    description: Contact operations
+servers:
+  - url: http://localhost:3000
+  - url: https://hw6-email-and-images-zp1s.onrender.com/
+paths:
+  /contacts:
+    get:
+      $ref: './paths/contacts/get.yaml'
+    post:
+      $ref: './paths/contacts/post.yaml'
+  /contacts/{contactId}:
+    get:
+      $ref: './paths/contacts/contactId/get.yaml'
+    patch:
+      $ref: './paths/contacts/contactId/patch.yaml'
+    delete:
+      $ref: './paths/contacts/contactId/delete.yaml'
+
+components:
+  schemas:
+    $ref: './components/schemas/contact.yaml'
+  responses:
+    $ref: './components/responses/401.yaml'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
