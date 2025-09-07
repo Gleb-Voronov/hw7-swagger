@@ -12,7 +12,7 @@ tags:
     description: Contact operations
 servers:
   - url: http://localhost:3000
-  - url: https://hw6-email-and-images-zp1s.onrender.com/
+  - url: https://hw7-swagger-p7k4.onrender.com/
 paths:
   /contacts:
     get:
