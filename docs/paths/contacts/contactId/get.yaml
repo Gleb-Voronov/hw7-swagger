@@ -11,10 +11,10 @@ parameters:
     required: true
     schema:
       type: string
-    example: 65ca67e7ae7f10c88b598384
+    example: '65ca67e7ae7f10c88b598384'
 responses:
-  '200':
-    description: Successfully retrieved contact by id
+  200:
+    description: Successfully retrieved contact
     content:
       application/json:
         schema:
@@ -29,21 +29,10 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully found contact with id 65ca67e7ae7f10c88b598384
+              example: 'Successfully found contact with id 65ca67e7ae7f10c88b598384'
             data:
               $ref: '../../../components/schemas/contact.yaml'
-  '401':
+  401:
     $ref: '../../../components/responses/401.yaml'
-  '404':
-    description: Contact not found
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            status:
-              type: integer
-              example: 404
-            message:
-              type: string
-              example: Contact not found
+  404:
+    $ref: '../../../components/responses/404.yaml'

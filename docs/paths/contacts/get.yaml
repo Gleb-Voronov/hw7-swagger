@@ -2,41 +2,65 @@ tags:
   - Contacts
 summary: Get all contacts
 operationId: getContacts
-description: Retrieve a list of all user contacts with pagination and search.
+description: Retrieve a paginated list of contacts.
 security:
   - bearerAuth: []
 parameters:
-  - name: page
-    in: query
-    description: Page number
-    required: false
+  - in: query
+    name: page
     schema:
       type: integer
       example: 1
-  - name: limit
-    in: query
-    description: Number of contacts per page
-    required: false
+    description: Page number for pagination
+  - in: query
+    name: limit
     schema:
       type: integer
       example: 10
-  - name: search
-    in: query
-    description: Search contacts by name or email
-    required: false
+    description: Number of contacts per page
+  - in: query
+    name: sort
     schema:
       type: string
+      example: name
+    description: Field to sort by
 responses:
-  '200':
+  200:
     description: Successfully retrieved contacts
     content:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
+            - pagination
           properties:
+            status:
+              type: string
+              example: success
+            message:
+              type: string
+              example: 'Contacts fetched successfully'
             data:
               type: array
               items:
                 $ref: '../../components/schemas/contact.yaml'
-  '401':
+            pagination:
+              type: object
+              properties:
+                totalDocs:
+                  type: integer
+                  example: 42
+                totalPages:
+                  type: integer
+                  example: 5
+                currentPage:
+                  type: integer
+                  example: 1
+                limit:
+                  type: integer
+                  example: 10
+  401:
     $ref: '../../components/responses/401.yaml'

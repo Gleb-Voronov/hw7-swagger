@@ -2,38 +2,49 @@ tags:
   - Contacts
 summary: Create a new contact
 operationId: createContact
-description: Create a new contact for the authorized user.
+description: Add a new contact with optional photo upload.
 security:
   - bearerAuth: []
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
         type: object
-        required:
-          - name
-          - email
-          - phone
         properties:
           name:
             type: string
             example: John Doe
           email:
             type: string
-            example: johndoe@example.com
+            example: john@example.com
           phone:
             type: string
-            example: +380991112233
-          isFavourite:
-            type: boolean
-            example: false
+            example: '+380931234567'
+          photo:
+            type: string
+            format: binary
 responses:
-  '201':
+  201:
     description: Successfully created contact
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas/contact.yaml'
-  '401':
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: string
+              example: success
+            message:
+              type: string
+              example: 'Contact created successfully'
+            data:
+              $ref: '../../components/schemas/contact.yaml'
+  400:
+    $ref: '../../components/responses/400.yaml'
+  401:
     $ref: '../../components/responses/401.yaml'
