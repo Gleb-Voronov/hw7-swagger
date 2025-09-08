@@ -11,6 +11,9 @@ requestBody:
     multipart/form-data:
       schema:
         type: object
+        required:
+          - name
+          - email
         properties:
           name:
             type: string
@@ -21,30 +24,29 @@ requestBody:
           phone:
             type: string
             example: '+380931234567'
+          isFavorite:
+            type: boolean
+            example: false
           photo:
             type: string
             format: binary
 responses:
-  201:
+  '201':
     description: Successfully created contact
     content:
       application/json:
         schema:
           type: object
-          required:
-            - status
-            - message
-            - data
           properties:
             status:
               type: string
               example: success
             message:
               type: string
-              example: 'Contact created successfully'
+              example: Contact created successfully
             data:
-              $ref: '../../components/schemas/contact.yaml'
-  400:
-    $ref: '../../components/responses/400.yaml'
-  401:
-    $ref: '../../components/responses/401.yaml'
+              $ref: ../../components/schemas/contact.yaml
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml

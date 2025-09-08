@@ -30,8 +30,8 @@
           "Contacts"
         ],
         "summary": "Get all contacts",
+        "description": "Retrieve a paginated list of contacts. Returns contacts for the authenticated user with pagination info.",
         "operationId": "getContacts",
-        "description": "Retrieve a paginated list of contacts.",
         "security": [
           {
             "bearerAuth": []
@@ -49,7 +49,7 @@
           },
           {
             "in": "query",
-            "name": "limit",
+            "name": "perPage",
             "schema": {
               "type": "integer",
               "example": 10
@@ -58,12 +58,25 @@
           },
           {
             "in": "query",
-            "name": "sort",
+            "name": "sortBy",
             "schema": {
               "type": "string",
               "example": "name"
             },
             "description": "Field to sort by"
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "example": "asc"
+            },
+            "description": "Sorting order"
           }
         ],
         "responses": {
@@ -76,42 +89,49 @@
                   "required": [
                     "status",
                     "message",
-                    "data",
-                    "pagination"
+                    "data"
                   ],
                   "properties": {
                     "status": {
-                      "type": "string",
-                      "example": "success"
+                      "type": "integer",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "Contacts fetched successfully"
+                      "example": "Successfully found contacts!"
                     },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/contact"
-                      }
-                    },
-                    "pagination": {
                       "type": "object",
                       "properties": {
-                        "totalDocs": {
-                          "type": "integer",
-                          "example": 42
+                        "contacts": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/contact"
+                          }
                         },
-                        "totalPages": {
-                          "type": "integer",
-                          "example": 5
-                        },
-                        "currentPage": {
+                        "page": {
                           "type": "integer",
                           "example": 1
                         },
-                        "limit": {
+                        "perPage": {
                           "type": "integer",
                           "example": 10
+                        },
+                        "totalItems": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "hasPreviousPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
                         }
                       }
                     }
@@ -143,6 +163,10 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "name",
+                  "email"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -155,6 +179,10 @@
                   "phone": {
                     "type": "string",
                     "example": "+380931234567"
+                  },
+                  "isFavorite": {
+                    "type": "boolean",
+                    "example": false
                   },
                   "photo": {
                     "type": "string",
@@ -172,11 +200,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
                   "properties": {
                     "status": {
                       "type": "string",
@@ -306,6 +329,10 @@
                     "type": "string",
                     "example": "+380931234568"
                   },
+                  "isFavorite": {
+                    "type": "boolean",
+                    "example": true
+                  },
                   "photo": {
                     "type": "string",
                     "format": "binary"
@@ -322,11 +349,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
                   "properties": {
                     "status": {
                       "type": "string",

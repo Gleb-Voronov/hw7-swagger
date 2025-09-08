@@ -1,8 +1,8 @@
 tags:
   - Contacts
 summary: Get all contacts
+description: Retrieve a paginated list of contacts. Returns contacts for the authenticated user with pagination info.
 operationId: getContacts
-description: Retrieve a paginated list of contacts.
 security:
   - bearerAuth: []
 parameters:
@@ -13,19 +13,26 @@ parameters:
       example: 1
     description: Page number for pagination
   - in: query
-    name: limit
+    name: perPage
     schema:
       type: integer
       example: 10
     description: Number of contacts per page
   - in: query
-    name: sort
+    name: sortBy
     schema:
       type: string
-      example: name
+      example: 'name'
     description: Field to sort by
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: [asc, desc]
+      example: asc
+    description: Sorting order
 responses:
-  200:
+  '200':
     description: Successfully retrieved contacts
     content:
       application/json:
@@ -35,32 +42,37 @@ responses:
             - status
             - message
             - data
-            - pagination
           properties:
             status:
-              type: string
-              example: success
+              type: integer
+              example: 200
             message:
               type: string
-              example: 'Contacts fetched successfully'
+              example: Successfully found contacts!
             data:
-              type: array
-              items:
-                $ref: '../../components/schemas/contact.yaml'
-            pagination:
               type: object
               properties:
-                totalDocs:
-                  type: integer
-                  example: 42
-                totalPages:
-                  type: integer
-                  example: 5
-                currentPage:
+                contacts:
+                  type: array
+                  items:
+                    $ref: '../../components/schemas/contact.yaml'
+                page:
                   type: integer
                   example: 1
-                limit:
+                perPage:
                   type: integer
                   example: 10
-  401:
+                totalItems:
+                  type: integer
+                  example: 1
+                totalPages:
+                  type: integer
+                  example: 1
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+                hasNextPage:
+                  type: boolean
+                  example: false
+  '401':
     $ref: '../../components/responses/401.yaml'

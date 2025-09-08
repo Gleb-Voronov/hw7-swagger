@@ -28,32 +28,31 @@ requestBody:
           phone:
             type: string
             example: '+380931234568'
+          isFavorite:
+            type: boolean
+            example: true
           photo:
             type: string
             format: binary
 responses:
-  200:
+  '200':
     description: Successfully updated contact
     content:
       application/json:
         schema:
           type: object
-          required:
-            - status
-            - message
-            - data
           properties:
             status:
               type: string
               example: success
             message:
               type: string
-              example: 'Contact updated successfully'
+              example: Contact updated successfully
             data:
-              $ref: '../../../components/schemas/contact.yaml'
-  400:
-    $ref: '../../../components/responses/400.yaml'
-  401:
-    $ref: '../../../components/responses/401.yaml'
-  404:
-    $ref: '../../../components/responses/404.yaml'
+              $ref: ../../../components/schemas/contact.yaml
+  '400':
+    $ref: ../../../components/responses/400.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../components/responses/404.yaml
