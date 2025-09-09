@@ -1,25 +1,45 @@
 type: object
+required:
+  - _id
+  - name
+  - phoneNumber
+  - email
+  - contactType
+  - userId
+  - createdAt
+  - updatedAt
 properties:
-  id:
+  _id:
     type: string
-    example: '64f9d1b87f3c0a4d2c123456'
+    example: 68bfe55c0760c26aa7319b36
   name:
     type: string
-    example: 'John Doe'
+    example: John Doe
+  phoneNumber:
+    type: string
+    example: +380123456789
   email:
     type: string
-    example: 'john@example.com'
-  phone:
+    example: john@example.com
+  isFavourite:
+    type: boolean
+    example: true
+  contactType:
     type: string
-    example: '+380931234567'
+    enum: [personal, work]
+    example: work
+  userId:
+    type: string
+    example: 68bfe3db0760c26aa7319b18
   photo:
     type: string
-    example: 'https://example.com/uploads/photo.jpg'
+    nullable: true
+    example: null
   createdAt:
     type: string
     format: date-time
-    example: '2025-09-07T12:34:56.000Z'
+    example: 2025-09-09T08:29:16.587Z
   updatedAt:
     type: string
     format: date-time
-    example: '2025-09-07T12:34:56.000Z'
+    example: 2025-09-09T08:29:16.587Z
